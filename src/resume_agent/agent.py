@@ -7,30 +7,16 @@ from resume_agent.prompts import SYSTEM_PROMPT, USER_PROMPT_TEMPLATE
 
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    base_url="https://api.deepseek.com"
-)
-
 
 def extract_json(text: str) -> dict:
-    """
-    从模型返回的文本里提取 JSON。
-    兼容三种情况：
-    1. 纯 JSON
-    2. ```json ... ``` 包裹
-    3. JSON 后面还有多余解释文字
-    """
     text = text.strip()
 
-    # 情况 2：被 ```json ... ``` 包裹
     if text.startswith("```"):
         text = text.strip("`")
         if text.lower().startswith("json"):
             text = text[4:]
         text = text.strip()
 
-    # 情况 3：从第一个 { 到最后一个 }
     start = text.find("{")
     end = text.rfind("}")
 
@@ -47,7 +33,30 @@ def extract_json(text: str) -> dict:
         )
 
 
-def analyze_resume(profile: str, resume: str, jd: str) -> dict:
+def analyze_resume(
+    profile: str,
+    resume: str,
+    jd: str,
+    api_key: str | None = None,
+) -> dict:
+    """
+    api_key:
+      - 如果传了，就用调用方提供的 Key
+      - 如果没传，就回退到环境变量 DEEPSEEK_API_KEY
+    """
+    key = api_key or os.getenv("DEEPSEEK_API_KEY")
+
+    if not key:
+        raise ValueError(
+            "没有可用的 DeepSeek API Key。"
+            "请在页面上填写你自己的 Key，或配置环境变量。"
+        )
+
+    client = OpenAI(
+        api_key=key,
+        base_url="https://api.deepseek.com",
+    )
+
     user_prompt = USER_PROMPT_TEMPLATE.format(
         profile=profile,
         resume=resume,

@@ -17,13 +17,28 @@ st.title("📄 简历分析 Agent")
 st.caption("上传简历 + 粘贴岗位 JD，自动分析匹配度、缺失关键词、改写建议")
 
 with st.sidebar:
-    st.header("使用说明")
+    st.header("🔑 DeepSeek API Key")
+    st.caption(
+        "本项目不存储你的 Key。"
+        "Key 仅用于本次请求，不会上传到服务器。"
+    )
+    user_api_key = st.text_input(
+        "填入你自己的 DeepSeek API Key",
+        type="password",
+        placeholder="sk-...",
+    )
+    st.markdown("获取方式：https://platform.deepseek.com")
+
+    st.divider()
+
+    st.header("📖 使用说明")
     st.markdown(
         """
-        1. 上传简历（PDF / DOCX / TXT）
-        2. 粘贴目标岗位 JD
-        3. 填写你的求职背景
-        4. 点击「开始分析」
+        1. 填入 DeepSeek API Key
+        2. 上传简历（PDF / DOCX / TXT）
+        3. 粘贴目标岗位 JD
+        4. 填写你的求职背景
+        5. 点击「开始分析」
         """
     )
 
@@ -58,7 +73,12 @@ profile_text = st.text_area(
         "正在学习：Docker、K8s、LangChain"
     ),
 )
+
 if st.button("🚀 开始分析", type="primary"):
+    if not user_api_key.strip():
+        st.warning("请先在左侧填入你的 DeepSeek API Key")
+        st.stop()
+
     if resume_file is None:
         st.warning("请先上传简历")
         st.stop()
@@ -86,7 +106,12 @@ if st.button("🚀 开始分析", type="primary"):
 
     with st.spinner("正在分析简历..."):
         try:
-            result = analyze_resume(profile_text, resume_text, jd_text)
+            result = analyze_resume(
+                profile_text,
+                resume_text,
+                jd_text,
+                api_key=user_api_key,
+            )
         except Exception as e:
             st.error(f"分析失败：{e}")
             st.stop()
