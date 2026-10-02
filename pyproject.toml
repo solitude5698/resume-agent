@@ -1,0 +1,22 @@
+[project]
+name = "resume-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "openai",
+    "pydantic",
+    "pypdf>=6.19.0",
+    "python-docx>=1.2.0",
+    "python-dotenv",
+    "rich",
+    "streamlit>=1.64.0",
+]
+
+[project.scripts]
+resume-agent = "resume_agent:main"
+
+[build-system]
+requires = ["uv_build>=0.12.21,<0.13.0"]
+build-backend = "uv_build"

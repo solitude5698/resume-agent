@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.env
+*.pyc
+# Virtual environments
+.venv
+output/
+data/resume.pdf
+data/resume.docx
+data/resume.txt
+data/jd.txt
+data/profile.txt
