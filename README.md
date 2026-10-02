@@ -1,5 +1,7 @@
 # 📄 简历分析 Agent
 
+🔗 **在线体验**：https://resume-agent-solitude.streamlit.app/
+
 基于 DeepSeek 大模型的智能简历分析 Agent。上传简历 + 粘贴岗位 JD，自动分析匹配度，生成改写建议、定制摘要和求职信。
 
 ## ✨ 功能
