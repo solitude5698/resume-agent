@@ -27,3 +27,4 @@
 ```bash
 git clone https://github.com/<你的用户名>/resume-agent.git
 cd resume-agent
+![界面预览](screenshot.png)
