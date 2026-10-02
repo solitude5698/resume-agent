@@ -25,6 +25,5 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/<你的用户名>/resume-agent.git
+git clone https://github.com/solitude5698/resume-agent.git
 cd resume-agent
-![界面预览](screenshot.png)
